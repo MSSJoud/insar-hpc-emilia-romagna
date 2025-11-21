@@ -1,1 +1,8 @@
 backend: cuda
+paths_config: configs/paths_example_strato.yaml
+aoi_geojson: configs/aoi_emilia_romagna.geojson
+sbas_settings: configs/sbas_settings.json
+threads_per_node: 32
+use_nvme_staging: true
+nvme_root_key: nvme_root
+log_timing: true
