@@ -1,36 +1,63 @@
 #!/usr/bin/env python
+"""
+High-level driver for the CUDA ISCE3 pipeline.
+
+Right now this is a minimal, but functioning, skeleton:
+- reads a YAML config
+- runs a few named steps
+- logs timing to logs/timing_cuda.json
+
+You can later replace the `print(...)` blocks with real ISCE3 commands.
+"""
+
 import argparse
-import yaml
 from pathlib import Path
+
+import yaml
+
 from utils_io_timing import timed_step
 
-def run_isce3_cuda(config):
-    # This is a high-level orchestrator; you plug in your actual ISCE3 calls here.
-    timing_log = Path(config.get("timing_log", "logs/timing_cuda.json"))
 
+def run_isce3_cuda(config_path: Path) -> None:
+    # Load config
+    with open(config_path, "r") as f:
+        cfg = yaml.safe_load(f)
+
+    backend = cfg.get("backend", "cuda")
+    if backend != "cuda":
+        raise ValueError(f"Config backend must be 'cuda', got {backend!r}")
+
+    timing_log = Path(cfg.get("timing_log", "logs/timing_cuda.json"))
+
+    # --- STEP 1: pair selection / baselines (placeholder) ---
     with timed_step("step1_pair_selection", timing_log):
-        # In your real code you may read a precomputed pair list
-        pass
+        # TODO: call your real pair selection or use a precomputed list.
+        print("Running pair selection (placeholder) ...")
 
+    # --- STEP 5: co-registration + resampling + IFG + geocoding (placeholder) ---
     with timed_step("step5_coreg_resample_ifg_geocode", timing_log):
-        # Example: call your ISCE3 wrapper / workflow scripts here
-        # os.system("isce3_tops_app.py ...")  # replace with real commands
-        pass
+        # TODO: replace with actual ISCE3-CUDA workflow calls.
+        print("Running ISCE3 CUDA coreg/IFG/geocode (placeholder) ...")
 
-    with timed_step("step10_sbas_inversion", timing_log):
-        # Later you can move SBAS here or call MintPy driver
-        pass
+    # --- STEP 10: SBAS / time-series (placeholder) ---
+    with timed_step("step10_sbas_time_series", timing_log):
+        # TODO: later you can call a MintPy/Dolphin script here.
+        print("Running SBAS time-series (placeholder) ...")
 
-def main():
+    print(f"Finished CUDA pipeline. Timing log: {timing_log}")
+
+
+def main() -> None:
     parser = argparse.ArgumentParser(description="Run ISCE3 CUDA pipeline.")
-    parser.add_argument("--config", required=True, help="Path to YAML config")
+    parser.add_argument(
+        "--config",
+        required=True,
+        help="Path to YAML config file (e.g., configs/config_insar_cuda.yaml)",
+    )
     args = parser.parse_args()
 
-    with open(args.config, "r") as f:
-        config = yaml.safe_load(f)
+    run_isce3_cuda(Path(args.config))
 
-    assert config.get("backend") == "cuda", "Config backend must be 'cuda'."
-    run_isce3_cuda(config)
 
 if __name__ == "__main__":
     main()
