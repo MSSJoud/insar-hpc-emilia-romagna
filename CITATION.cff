@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+message: "If you use this code, please cite both the software and the associated paper."
+title: "insar-hpc-emilia-romagna: Operational InSAR at Scale – Emilia–Romagna HPC Benchmark"
+authors:
+  - family-names: "Joud"
+    given-names: "Mehdi S. S."
+    affiliation: "Aalborg University, Copenhagen, Institute for IT and Design"
+    orcid: "0000-0000-0000-0000"  # replace if you have one
+version: "0.1.0"
+date-released: "2025-11-21"
+repository-code: "https://github.com/MSSJoud/insar-hpc-emilia-romagna"
