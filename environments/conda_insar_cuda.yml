@@ -1,3 +1,18 @@
 name: insar_cuda
-channels: [conda-forge, defaults]
-dependencies: [python=3.10]
+channels:
+  - conda-forge
+  - nvidia
+  - defaults
+dependencies:
+  - python=3.10
+  - numpy
+  - scipy
+  - gdal
+  - rasterio
+  - xarray
+  - dask
+  - h5py
+  - cudatoolkit
+  - pip
+  - pip:
+      - isce3[cuda]   # adapt to how you install ISCE3-CUDA on Strato
